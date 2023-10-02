@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cy8imih3f81y6"]
 
-[ext_resource type="Script" path="res://characters/scripts/player_character.gd" id="1_55ry4"]
+[ext_resource type="Script" path="res://scripts/main/character.gd" id="1_4q5sd"]
 [ext_resource type="PackedScene" uid="uid://epg2qal0kq7m" path="res://characters/dev/models/berserk_warrior/berserk_warrior.blend" id="2_pcjxe"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_q6026"]
@@ -8,7 +8,7 @@ radius = 0.4
 height = 1.0
 
 [node name="BerserkCharacter" type="CharacterBody3D"]
-script = ExtResource("1_55ry4")
+script = ExtResource("1_4q5sd")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

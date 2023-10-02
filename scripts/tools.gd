@@ -14,3 +14,11 @@ func align_direction_vector_to_rotation_step(direction: Vector3, step: float)->V
 	var angle = direction_vector_to_direction_angle(direction)
 	angle = nearest_multiple(angle, deg_to_rad(step))
 	return Vector3.ZERO.lerp(direction_angle_to_direction_vector(angle), direction.length())
+	
+func get_current_scene() -> Node3D:
+	# The root is always the viewport
+	var root = get_tree().get_root()
+	
+	# The current scene should be the last added child of the root
+	return root.get_child(root.get_child_count() - 1)
+

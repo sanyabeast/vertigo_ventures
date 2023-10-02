@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://doqk618sq6yet"]
+[gd_scene load_steps=15 format=3 uid="uid://doqk618sq6yet"]
 
 [ext_resource type="PackedScene" uid="uid://bpttgiqfk63ox" path="res://levels/dev/01/dev_scene_01.blend" id="1_xv8gc"]
 [ext_resource type="Shader" path="res://shaders/sky.gdshader" id="2_bj26q"]
 [ext_resource type="PackedScene" uid="uid://4jghrqckc63c" path="res://main/follow_camera.tscn" id="2_egcu5"]
 [ext_resource type="PackedScene" uid="uid://d311up2qfwjbj" path="res://characters/character.tscn" id="2_nb06j"]
 [ext_resource type="PackedScene" uid="uid://cy8imih3f81y6" path="res://characters/dev/dev_berserk_character.tscn" id="5_jv2p6"]
+[ext_resource type="Script" path="res://scripts/main/character.gd" id="5_u357q"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hskci"]
 shader = ExtResource("2_bj26q")
@@ -26,6 +27,23 @@ volumetric_fog_enabled = true
 volumetric_fog_density = 0.005
 volumetric_fog_sky_affect = 0.305
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_q6026"]
+radius = 0.4
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6w718"]
+albedo_color = Color(0.00784314, 0.521569, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vhffg"]
+material = SubResource("StandardMaterial3D_6w718")
+height = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_coqcj"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jxu3o"]
+material = SubResource("StandardMaterial3D_coqcj")
+
 [node name="dev_level_01" type="Node3D"]
 
 [node name="Arch" type="Node3D" parent="."]
@@ -33,7 +51,6 @@ volumetric_fog_sky_affect = 0.305
 [node name="dev_scene_01" parent="Arch" instance=ExtResource("1_xv8gc")]
 
 [node name="FollowCamera" parent="." instance=ExtResource("2_egcu5")]
-target_path = NodePath("../BerserkCharacter")
 
 [node name="Env" type="Node3D" parent="."]
 
@@ -47,6 +64,50 @@ shadow_blur = 2.0
 
 [node name="Character" parent="." instance=ExtResource("2_nb06j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.17905, 2, -6.87203)
+walk_speed = 1.0
+jump_velocity = 10.0
+character_type = 3
+
+[node name="Character2" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.17905, 2, -0.87203)
+script = ExtResource("5_u357q")
+walk_speed = 1.0
+character_type = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Character2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_q6026")
+
+[node name="Body" type="Node3D" parent="Character2"]
+
+[node name="Root" type="Node3D" parent="Character2/Body"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Character2/Body/Root"]
+transform = Transform3D(2.98023e-08, 1, 0, -1, 2.98023e-08, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("CylinderMesh_vhffg")
+
+[node name="Character3" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.17905, 2, -0.87203)
+script = ExtResource("5_u357q")
+walk_speed = 3.0
+character_type = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Character3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_q6026")
+
+[node name="Body" type="Node3D" parent="Character3"]
+
+[node name="Root" type="Node3D" parent="Character3/Body"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Character3/Body/Root"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_jxu3o")
 
 [node name="BerserkCharacter" parent="." instance=ExtResource("5_jv2p6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.918477, 2, -6.443)
+character_type = 0
+
+[node name="BerserkCharacter2" parent="." instance=ExtResource("5_jv2p6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.47979, 2, -6.443)
+character_type = 0

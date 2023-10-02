@@ -23,6 +23,7 @@ var target: Node3D
 @onready var camera: Camera3D = $CameraRoot/Anchor/Camera3D
 
 func _ready():
+	game_manager.camera = self
 	# Get the target node from the provided NodePath
 	if target_path:
 		target = get_node(target_path)
@@ -30,6 +31,11 @@ func _ready():
 			print("Error: Target node not found!")
 	else:
 		print("Error: Target path not set!")
+	print(players_manager.player)
+
+func _exit_tree():
+	if game_manager.camera == self:
+		game_manager.camera = null
 
 func _process(delta):
 	# If the target is available, update the camera's position and orientation

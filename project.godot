@@ -17,7 +17,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+config="*res://scripts/config.gd"
 tools="*res://scripts/tools.gd"
+players_manager="*res://scripts/player_manager.gd"
+npc_manager="*res://scripts/npc_manager.gd"
+game_manager="*res://scripts/game_manager.gd"
 
 [display]
 

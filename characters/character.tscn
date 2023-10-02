@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://d311up2qfwjbj"]
 
-[ext_resource type="Script" path="res://characters/scripts/character.gd" id="1_flebi"]
+[ext_resource type="Script" path="res://scripts/main/character.gd" id="1_25xw1"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_q6026"]
 radius = 0.4
@@ -13,7 +13,7 @@ albedo_color = Color(0.239216, 0.721569, 1, 1)
 material = SubResource("StandardMaterial3D_4lceb")
 
 [node name="Character" type="CharacterBody3D"]
-script = ExtResource("1_flebi")
+script = ExtResource("1_25xw1")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

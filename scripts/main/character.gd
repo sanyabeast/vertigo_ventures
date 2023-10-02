@@ -17,9 +17,22 @@ var body_angle: float = 0
 @export var body_rotation_speed_max = 32.0
 var requesting_jump: bool = false
 
+enum ECharacterType {
+	Player,
+	Friend,
+	Neutral,
+	Enemy
+}
+
+@export var character_type: ECharacterType = ECharacterType.Neutral
+
+func _ready():
+	game_manager.join(self)
+
+func _exit_tree():
+	game_manager.leave(self)
+
 func _physics_process(delta):
-	# Reset jump request state.
-	requesting_jump = false
 	
 	process_behaviour(delta)
 	
@@ -51,6 +64,9 @@ func _physics_process(delta):
 
 	# Apply the calculated velocity.
 	move_and_slide()
+	
+	# Reset jump request state.
+	requesting_jump = false
 
 func process_body(delta: float) -> void:
 	# Get the angle corresponding to the current move direction.
