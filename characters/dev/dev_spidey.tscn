@@ -1,19 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://d311up2qfwjbj"]
+[gd_scene load_steps=4 format=3 uid="uid://0b1es3vbj2hw"]
 
-[ext_resource type="Script" path="res://scripts/main/character.gd" id="1_25xw1"]
+[ext_resource type="Script" path="res://scripts/main/character.gd" id="1_f3h4l"]
+[ext_resource type="PackedScene" uid="uid://clw6p5r23kdt2" path="res://characters/dev/models/spidey/spidey.blend" id="2_xaj7e"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_q6026"]
 radius = 0.4
 height = 1.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ega5s"]
-albedo_color = Color(1, 0.431373, 0.439216, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_x7gv2"]
-material = SubResource("StandardMaterial3D_ega5s")
-
-[node name="Character" type="CharacterBody3D"]
-script = ExtResource("1_25xw1")
+[node name="Spidey" type="CharacterBody3D"]
+script = ExtResource("1_f3h4l")
+walk_speed = 2.0
+character_type = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -23,9 +20,8 @@ shape = SubResource("CapsuleShape3D_q6026")
 
 [node name="Root" type="Node3D" parent="Body"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Body/Root"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-mesh = SubResource("BoxMesh_x7gv2")
+[node name="spidey" parent="Body/Root" instance=ExtResource("2_xaj7e")]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, 0, 0)
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
 avoidance_enabled = true

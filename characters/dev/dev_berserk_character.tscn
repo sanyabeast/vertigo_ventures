@@ -19,3 +19,12 @@ shape = SubResource("CapsuleShape3D_q6026")
 [node name="Root" type="Node3D" parent="Body"]
 
 [node name="berserk_warrior" parent="Body/Root" instance=ExtResource("2_pcjxe")]
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+avoidance_enabled = true
+radius = 1.0
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+target_position = Vector3(0, 0, -10)
+debug_shape_thickness = 5

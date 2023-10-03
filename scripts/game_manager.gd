@@ -19,7 +19,7 @@ func _process(delta):
 # It assigns the character to the appropriate manager and sets up related properties.
 func join(character: VCharacter):
 	match character.character_type:
-		VCharacter.ECharacterType.Player:
+		config.ECharacterType.Player:
 			# If the character is a player, set it as the primary player.
 			players_manager.set_player(character)
 			# Set the camera's target to the new player.
@@ -32,7 +32,7 @@ func join(character: VCharacter):
 # It removes the character from the appropriate manager and cleans up related properties.
 func leave(character: VCharacter):
 	match character.character_type:
-		VCharacter.ECharacterType.Player:
+		config.ECharacterType.Player:
 			# If the character is a player, unset it as the primary player.
 			players_manager.unset_player(character)
 			# Remove the camera's target since the player is leaving.

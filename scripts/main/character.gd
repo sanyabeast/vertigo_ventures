@@ -1,10 +1,13 @@
 class_name VCharacter
 extends CharacterBody3D
 
+
+
 # Variables for the body node and character parameters.
 @onready var body: Node3D = $Body
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
-
+@onready var ray: RayCast3D = $RayCast3D
+@onready var coll: CollisionShape3D = $CollisionShape3D
 
 @export var walk_speed: float = 5.0
 @export var walk_fade_speed: float = 15.0
@@ -20,16 +23,14 @@ var body_angle: float = 0
 @export var body_rotation_speed_max = 32.0
 var requesting_jump: bool = false
 
-enum ECharacterType {
-	Player,
-	Friend,
-	Neutral,
-	Enemy
-}
+@export var character_type: config.ECharacterType = config.ECharacterType.Neutral
 
-@export var character_type: ECharacterType = ECharacterType.Neutral
+@export_group("NPC Behaviour")
+@export var npc_target_follow_strategy: config.ETargetFollowStrategy = config.ETargetFollowStrategy.Path
+
 
 func _ready():
+	ray.add_exception(self)
 	game_manager.join(self)
 
 func _exit_tree():
@@ -65,6 +66,9 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, walk_fade_speed * delta)
 		velocity.z = move_toward(velocity.z, 0, walk_fade_speed * delta)
 
+
+	nav_agent.velocity = velocity
+
 	# Apply the calculated velocity.
 	move_and_slide()
 	
@@ -82,8 +86,8 @@ func process_body(delta: float) -> void:
 		target_body_angle -= PI * 2
 		
 	# Print the target and current body angles if they're different and the character is moving.
-	if target_body_angle != body_angle and move_direction.length() > 0:
-		print("new: %s, current: %s" % [target_body_angle, body_angle])
+#	if target_body_angle != body_angle and move_direction.length() > 0:
+#		print("new: %s, current: %s" % [target_body_angle, body_angle])
 
 	# Determine the speed of rotation based on the difference between the current and target angles.
 	var rotation_speed = lerp(body_rotation_speed_min, body_rotation_speed_max, abs(body_angle - target_body_angle) / (PI))
@@ -95,7 +99,9 @@ func process_body(delta: float) -> void:
 	body_direction = tools.direction_angle_to_direction_vector(body_angle)
 	
 	# Make the body node face the calculated direction.
-	body.look_at(body.global_transform.origin + body_direction, Vector3.UP)	
+	body.look_at(body.global_transform.origin + body_direction, Vector3.UP)
+	
+	
 
 func process_behaviour(delta: float) -> void:
 	# Placeholder for character-specific behaviors.
