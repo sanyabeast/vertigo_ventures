@@ -6,11 +6,11 @@
 radius = 0.4
 height = 1.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4lceb"]
-albedo_color = Color(0.239216, 0.721569, 1, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ega5s"]
+albedo_color = Color(1, 0.431373, 0.439216, 1)
 
-[sub_resource type="SphereMesh" id="SphereMesh_fl4oq"]
-material = SubResource("StandardMaterial3D_4lceb")
+[sub_resource type="BoxMesh" id="BoxMesh_x7gv2"]
+material = SubResource("StandardMaterial3D_ega5s")
 
 [node name="Character" type="CharacterBody3D"]
 script = ExtResource("1_25xw1")
@@ -25,4 +25,7 @@ shape = SubResource("CapsuleShape3D_q6026")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Body/Root"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-mesh = SubResource("SphereMesh_fl4oq")
+mesh = SubResource("BoxMesh_x7gv2")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_postprocessing = 1

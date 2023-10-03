@@ -53,14 +53,20 @@ func process_enemy_npc_behaviour(delta: float, npc: VCharacter):
 # Determines and executes the movement for an NPC towards the player.
 func move_npc_toward_player(delta: float, npc: VCharacter, desired_distance: float):
 	if players_manager.player:
-		var npc_position: Vector3 = npc.global_transform.origin
-		var player_position: Vector3 = players_manager.player.global_transform.origin
-		var distance: float = npc_position.distance_to(player_position)
-		var direction: Vector3 = (player_position - npc_position).normalized()
+		
+#		var direction: Vector3 = (player_position - npc_position).normalized()
+		
+		if npc.nav_agent != null:
+			var npc_position: Vector3 = npc.global_transform.origin
+			var player_position: Vector3 = players_manager.player.global_transform.origin
+			
+			npc.nav_agent.target_position = player_position
+			
+			var distance: float = npc_position.distance_to(player_position)
+			var direction: Vector3 = Vector3.ZERO
+			
+			if distance > desired_distance:
+				direction = (npc.nav_agent.get_next_path_position() - npc.global_position).normalized()
+				print("direction: %s" % [direction])
 
-		if distance > desired_distance:
-			if npc.is_on_wall():
-				npc.requesting_jump = true
-			npc.move_direction = direction
-		else:
-			npc.move_direction = Vector3.ZERO
+			npc.move_direction = npc.move_direction.move_toward(direction, config.NPC_PATH_DIRECTION_CHANGE_SPEED * delta)	

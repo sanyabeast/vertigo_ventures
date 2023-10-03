@@ -3,6 +3,9 @@ extends CharacterBody3D
 
 # Variables for the body node and character parameters.
 @onready var body: Node3D = $Body
+@onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
+
+
 @export var walk_speed: float = 5.0
 @export var walk_fade_speed: float = 15.0
 @export var jump_velocity: float = 5
@@ -45,7 +48,7 @@ func _physics_process(delta):
 		velocity.y = jump_velocity
 
 	# Align the move direction to specified rotation steps.
-	move_direction = tools.align_direction_vector_to_rotation_step(move_direction, direction_step)	
+	move_direction = tools.align_direction_vector_to_rotation_step(move_direction, direction_step)
 
 	# Process the body's orientation and direction.
 	process_body(delta)

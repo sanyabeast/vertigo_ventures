@@ -22,3 +22,10 @@ func get_current_scene() -> Node3D:
 	# The current scene should be the last added child of the root
 	return root.get_child(root.get_child_count() - 1)
 
+# Generates a random Vector3 with each component in the range [from, to].
+func random_point_xz(from: float, to: float) -> Vector3:
+	return Vector3(
+		randf_range(from, to), 
+		0, 
+		randf_range(from, to)
+	)
