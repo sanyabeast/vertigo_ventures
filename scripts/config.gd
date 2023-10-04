@@ -16,3 +16,8 @@ enum ECharacterType {
 	Neutral,
 	Enemy
 }
+
+enum EAbilityType {
+	Property,
+	Item
+}

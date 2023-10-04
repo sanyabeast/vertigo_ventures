@@ -93,19 +93,39 @@ shadow_blur = 2.0
 [node name="BerserkCharacter" parent="Characters" instance=ExtResource("5_jv2p6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.918477, 2, -8.86132)
 character_type = 1
+initial_stats = {
+"health": 3.0,
+"walking": 2.0
+}
 
 [node name="BerserkCharacter2" parent="Characters" instance=ExtResource("5_jv2p6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.47979, 2, -6.443)
 character_type = 0
+initial_stats = {
+"health": 3.0,
+"walking": 8.0
+}
 
 [node name="ZombieVillager" parent="Characters" instance=ExtResource("6_28rcj")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.71548, 0.999998, 4.9014)
+initial_stats = {
+"health": 3.0,
+"walking": 1.0
+}
 
 [node name="Ghast" parent="Characters" instance=ExtResource("7_toye5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.23837, 0.999998, -4.475)
+initial_stats = {
+"health": 3.0,
+"walking": 2.0
+}
 
 [node name="Spidey" parent="Characters" instance=ExtResource("7_484u2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.48252, 0.999998, -0.74087)
+initial_stats = {
+"health": 3.0,
+"walking": 7.0
+}
 
 [node name="Arch" type="Node3D" parent="."]
 

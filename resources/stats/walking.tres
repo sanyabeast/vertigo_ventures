@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="VStatResource" load_steps=2 format=3 uid="uid://ctfi8kwurnrev"]
+
+[ext_resource type="Script" path="res://resources/stat_resource.gd" id="1_f0d8o"]
+
+[resource]
+script = ExtResource("1_f0d8o")
+description = ""

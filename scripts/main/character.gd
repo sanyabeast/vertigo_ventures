@@ -1,15 +1,12 @@
 class_name VCharacter
 extends CharacterBody3D
 
-
-
 # Variables for the body node and character parameters.
 @onready var body: Node3D = $Body
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
 @onready var ray: RayCast3D = $RayCast3D
 @onready var coll: CollisionShape3D = $CollisionShape3D
 
-@export var walk_speed: float = 5.0
 @export var walk_fade_speed: float = 15.0
 @export var jump_velocity: float = 5
 @export var gravity: float = 9.8
@@ -25,7 +22,13 @@ var requesting_jump: bool = false
 
 @export var character_type: config.ECharacterType = config.ECharacterType.Neutral
 
-@export_group("NPC Behaviour")
+@export_category("Stats & Items")
+@export var initial_stats: Dictionary
+@export var initial_items: Dictionary
+@onready var stats: VStatsManager = VStatsManager.new(initial_stats)
+@onready var items: VItemsManager = VItemsManager.new(initial_items)
+
+@export_category("NPC Behaviour")
 @export var npc_target_follow_strategy: config.ETargetFollowStrategy = config.ETargetFollowStrategy.Path
 
 
@@ -56,8 +59,8 @@ func _physics_process(delta):
 	
 	# Update the character's horizontal movement based on the move direction.
 	if move_direction.length() > 0:
-		velocity.x = move_direction.x * walk_speed
-		velocity.z = move_direction.z * walk_speed
+		velocity.x = move_direction.x * stats.get_stat("walking")
+		velocity.z = move_direction.z * stats.get_stat("walking")
 	else:
 		# Ensure body angle is between 0 and 2*PI.
 		body_angle = fmod(body_angle, PI * 2)
