@@ -66,26 +66,5 @@ func get_resources_in_directory(directory_path: String) -> Dictionary:
 	
 	return resources
 
-func apply_buffs(body: VCharacter, buffs: Dictionary):
-	for name in buffs:
-		var value = buffs[name]
-		var buff_data: VBuffResource = config.buffs_lib[name]
-		
-		match buff_data.target_type:
-			config.EBuffTarget.Stat:
-				match buff_data.modifier_type:
-					config.EBuffModifierType.Increment:
-						body.stats.alter_stat(buff_data.target_name, +value)
-					config.EBuffModifierType.Decrement:
-						body.stats.alter_stat(buff_data.target_name, -value)
-					config.EBuffModifierType.Multiply:
-						body.stats.alter_stat(buff_data.target_name, body.stats.get_stat(buff_data.target_name) * value)
-					config.EBuffModifierType.Divide:
-						assert(value != 0, "Incorrect buff settings, modifier type set to 'Divide' but value is set to '0'")
-						body.stats.alter_stat(buff_data.target_name, body.stats.get_stat(buff_data.target_name) / value)
-					config.EBuffModifierType.Constant:
-						body.stats.set_stat(buff_data.target_name, value)
-			config.EBuffTarget.Item:
-				pass
-#				match buff_data.modifier_type:
-#					pass
+func teleport_to_position(object: Node3D, target_position: Vector3) -> void:
+	object.global_transform.origin = target_position

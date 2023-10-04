@@ -156,9 +156,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 [node name="Area3D" parent="." instance=ExtResource("10_efatr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.02129, 0, 2.71067)
 allowed_character_types = Array[int]([0, 3])
-enter_action_type = 1
-buffs_on_enter = {
-"damage": 1.0
+buffs = {
+"health": -1.0
 }
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
@@ -168,13 +167,9 @@ mesh = SubResource("BoxMesh_lbdyp")
 [node name="Area3D2" parent="." instance=ExtResource("10_efatr")]
 transform = Transform3D(4.4, 0, 0, 0, 0.6, 0, 0, 0, 2.5, 0.0212898, 0, 6.71067)
 allowed_character_types = Array[int]([1, 3, 0])
-enter_action_type = 1
-exit_action_type = 1
-buffs_on_enter = {
-"speedup": 5.0
-}
-buffs_on_exit = {
-"slowdown": 5.0
+apply_debuffs_on_exit = true
+buffs = {
+"walking": 5.0
 }
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D2"]

@@ -4,8 +4,8 @@ extends CharacterBody3D
 # Variables for the body node and character parameters.
 @onready var body: Node3D = $Body
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
-@onready var ray: RayCast3D = $RayCast3D
 @onready var coll: CollisionShape3D = $CollisionShape3D
+@onready var equipment: VEquipmentManager = $Eqipment
 
 @export var walk_fade_speed: float = 15.0
 @export var jump_velocity: float = 5
@@ -14,11 +14,14 @@ extends CharacterBody3D
 
 # Internal state variables for movement and body orientation.
 var move_direction: Vector3
+var action_direction: Vector3
 var body_direction: Vector3
 var body_angle: float = 0
 @export var body_rotation_speed_min = 2.0
-@export var body_rotation_speed_max = 32.0
+@export var body_rotation_speed_max = 48.0
 var requesting_jump: bool = false
+var requesting_action: bool = false
+var requesting_action_prev: bool = false
 
 @export var character_type: config.ECharacterType = config.ECharacterType.Neutral
 
@@ -34,7 +37,7 @@ var requesting_jump: bool = false
 signal dead()
 
 func _ready():
-	ray.add_exception(self)
+	
 	stats.exhausted.connect(_on_stat_exhausted)
 	game_manager.join(self)
 
@@ -63,12 +66,21 @@ func _physics_process(delta):
 	# Process jump action.
 	if requesting_jump and is_on_floor():
 		velocity.y = jump_velocity
+		
+	if requesting_action != requesting_action_prev:
+		if requesting_action:
+			equipment.start_use()
+		else:
+			equipment.stop_use()
 
 	# Align the move direction to specified rotation steps.
 	move_direction = tools.align_direction_vector_to_rotation_step(move_direction, direction_step)
 
 	# Process the body's orientation and direction.
 	process_body(delta)
+	
+	# Process equipment orientation and direction
+	process_equipment(delta)
 	
 	# Update the character's horizontal movement based on the move direction.
 	if move_direction.length() > 0:
@@ -90,10 +102,16 @@ func _physics_process(delta):
 	
 	# Reset jump request state.
 	requesting_jump = false
+	requesting_action_prev = requesting_action
+
+func process_equipment(delta: float) -> void:
+	var final_direction = tools.align_direction_vector_to_rotation_step(action_direction, direction_step)
+	equipment.look_at(equipment.global_transform.origin + final_direction, Vector3.UP)
 
 func process_body(delta: float) -> void:
 	# Get the angle corresponding to the current move direction.
-	var target_body_angle = tools.direction_vector_to_direction_angle(move_direction)
+	var final_direction = move_direction.lerp(action_direction, action_direction.length())
+	var target_body_angle = tools.direction_vector_to_direction_angle(final_direction)
 
 	# Adjust the target angle to make the rotation as short as possible.
 	if abs(body_angle - target_body_angle) > abs(body_angle - (target_body_angle + PI * 2)):
@@ -102,14 +120,14 @@ func process_body(delta: float) -> void:
 		target_body_angle -= PI * 2
 		
 	# Print the target and current body angles if they're different and the character is moving.
-#	if target_body_angle != body_angle and move_direction.length() > 0:
+#	if target_body_angle != body_angle and final_direction.length() > 0:
 #		print("new: %s, current: %s" % [target_body_angle, body_angle])
 
 	# Determine the speed of rotation based on the difference between the current and target angles.
 	var rotation_speed = lerp(body_rotation_speed_min, body_rotation_speed_max, abs(body_angle - target_body_angle) / (PI))
 
 	# Gradually rotate the body towards the target angle.
-	body_angle = move_toward(body_angle, target_body_angle, rotation_speed * delta * move_direction.length())
+	body_angle = move_toward(body_angle, target_body_angle, rotation_speed * delta * final_direction.length())
 
 	# Convert the angle back to a direction vector.
 	body_direction = tools.direction_angle_to_direction_vector(body_angle)

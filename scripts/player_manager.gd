@@ -37,6 +37,10 @@ func process_player_input(delta: float, player: VCharacter):
 	if Input.is_action_just_pressed("jump"):
 		player.requesting_jump = true
 
+	player.requesting_action = Input.is_action_pressed("act_left") or Input.is_action_pressed("act_right") or Input.is_action_pressed("act_forward") or Input.is_action_pressed("act_backward")
+
 	# Get the input direction and convert it to the player's local space.
-	var input_dir = Input.get_vector("left", "right", "forward", "backward")
-	player.move_direction = (player.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var move_dir = Input.get_vector("left", "right", "forward", "backward")
+	var action_dir = Input.get_vector("act_left", "act_right", "act_forward", "act_backward")
+	player.move_direction = (player.transform.basis * Vector3(move_dir.x, 0, move_dir.y)).normalized()
+	player.action_direction = (player.transform.basis * Vector3(action_dir.x, 0, action_dir.y)).normalized()
