@@ -31,13 +31,26 @@ var requesting_jump: bool = false
 @export_category("NPC Behaviour")
 @export var npc_target_follow_strategy: config.ETargetFollowStrategy = config.ETargetFollowStrategy.Path
 
+signal dead()
 
 func _ready():
 	ray.add_exception(self)
+	stats.exhausted.connect(_on_stat_exhausted)
 	game_manager.join(self)
 
 func _exit_tree():
 	game_manager.leave(self)
+
+func _on_stat_exhausted(name: String, value: float, old_value: float):
+	print("state %s exhauseted" % name)
+	match name:
+		"health":
+			die()
+	pass
+
+func die():
+	dead.emit()
+	queue_free()
 
 func _physics_process(delta):
 	

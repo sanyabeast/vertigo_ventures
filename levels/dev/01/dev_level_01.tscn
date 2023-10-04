@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://doqk618sq6yet"]
+[gd_scene load_steps=22 format=3 uid="uid://doqk618sq6yet"]
 
 [ext_resource type="Shader" path="res://shaders/sky_adv.gdshader" id="1_nr236"]
 [ext_resource type="PackedScene" uid="uid://bpttgiqfk63ox" path="res://levels/dev/01/dev_scene_01.blend" id="1_xv8gc"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://42n3gpwy1gn6" path="res://characters/dev/dev_ghast.tscn" id="7_toye5"]
 [ext_resource type="PackedScene" uid="uid://c2wja30w655n7" path="res://levels/props/door/door_a1.tscn" id="8_8olwt"]
 [ext_resource type="PackedScene" uid="uid://3vwbjux0sbp4" path="res://levels/props/door/door_a2.tscn" id="9_yqcgs"]
+[ext_resource type="PackedScene" uid="uid://cajovjhfyfeej" path="res://main/trigger.tscn" id="10_efatr"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_it4xb"]
 
@@ -73,6 +74,8 @@ cell_height = 0.1
 agent_max_climb = 0.0
 agent_max_slope = 0.02
 region_min_size = 8.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_lbdyp"]
 
 [node name="dev_level_01" type="Node3D"]
 
@@ -149,3 +152,31 @@ transform = Transform3D(1.31134e-07, 0, -1, 0, 1, 0, 1, 0, 1.31134e-07, -10, 0, 
 
 [node name="Door5" parent="Arch/NavigationRegion3D/Props" instance=ExtResource("9_yqcgs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+
+[node name="Area3D" parent="." instance=ExtResource("10_efatr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.02129, 0, 2.71067)
+allowed_character_types = Array[int]([0, 3])
+enter_action_type = 1
+buffs_on_enter = {
+"damage": 1.0
+}
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.575341, 0)
+mesh = SubResource("BoxMesh_lbdyp")
+
+[node name="Area3D2" parent="." instance=ExtResource("10_efatr")]
+transform = Transform3D(4.4, 0, 0, 0, 0.6, 0, 0, 0, 2.5, 0.0212898, 0, 6.71067)
+allowed_character_types = Array[int]([1, 3, 0])
+enter_action_type = 1
+exit_action_type = 1
+buffs_on_enter = {
+"speedup": 5.0
+}
+buffs_on_exit = {
+"slowdown": 5.0
+}
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.575341, 0)
+mesh = SubResource("BoxMesh_lbdyp")

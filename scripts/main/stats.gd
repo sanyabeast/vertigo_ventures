@@ -1,7 +1,13 @@
 class_name VStatsManager
 
-var stats_lib: Dictionary = tools.get_resources_in_directory("res://resources/stats/")
+var stats_lib = config.stats_lib
 var values := {}
+
+signal exhausted(name: String, new_value: float, old_value: float)
+signal restored(name: String, new_value: float, old_value: float)
+signal incremented(name: String, new_value: float, old_value: float)
+signal decremented(name: String, new_value: float, old_value: float)
+
 
 func _init(initial_stats: Dictionary):
 	print("StatsManager initialising, initial stats count: %s" % [initial_stats.size()])
@@ -19,7 +25,19 @@ func declare_stat(name: String)->void:
 		values[name] = 0
 
 func set_stat(name: String, value: float):
+	declare_stat(name)
+	var prev_value: float = values[name]
+	value = clamp(value, 0, INF)
 	values[name] = value
+	if prev_value != value:
+		if value == 0:
+			exhausted.emit(name, value, prev_value)
+		if value != 0 and prev_value == 0:
+			restored.emit(name, value, prev_value)
+		if value > prev_value:
+			incremented.emit(name, value, prev_value)
+		if value < prev_value:
+			decremented.emit(name, value, prev_value)
 	print("setting stat '%s' value to '%s'" % [name, str(value)])
 	
 func get_stat(name: String) -> float:
@@ -28,10 +46,5 @@ func get_stat(name: String) -> float:
 	
 func alter_stat(name: String, value: float) -> float:
 	declare_stat(name)
-	values[name] += value
-	if (values[name] <= 0):
-		print("stat %s reached %s" % [name, str(value)])
-		values[name] = 0
-		
+	set_stat(name, values[name] + value)
 	return values[name]
-

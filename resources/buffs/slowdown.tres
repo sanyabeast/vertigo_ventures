@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="VBuffResource" load_steps=2 format=3 uid="uid://dvomd7ygf647h"]
+
+[ext_resource type="Script" path="res://resources/buff.gd" id="1_7ne7s"]
+
+[resource]
+script = ExtResource("1_7ne7s")
+title = "Speedup"
+target_type = 0
+target_name = "walking"
+modifier_type = 1

@@ -4,6 +4,5 @@
 [ext_resource type="PackedScene" uid="uid://epg2qal0kq7m" path="res://characters/dev/models/berserk_warrior/berserk_warrior.blend" id="2_pcjxe"]
 
 [node name="Berserk" instance=ExtResource("1_m6xvs")]
-npc_target_follow_strategy = 0
 
 [node name="berserk_warrior" parent="Body/Root" index="0" instance=ExtResource("2_pcjxe")]

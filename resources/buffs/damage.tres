@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="VBuffResource" load_steps=2 format=3 uid="uid://ti0qwe5vn468"]
+
+[ext_resource type="Script" path="res://resources/buff.gd" id="1_8q3jv"]
+
+[resource]
+script = ExtResource("1_8q3jv")
+title = "Damage"
+target_type = 0
+target_name = "health"
+modifier_type = 1
